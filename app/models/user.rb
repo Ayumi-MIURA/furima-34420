@@ -12,8 +12,8 @@ class User < ApplicationRecord
   end
         
   with_options presence: true, format: { with:/\A[ァ-ヶ]+\z/} do
-    validates :first_name_katakana
-    validates :last_name_katakana
+    validates :first_name_kana
+    validates :last_name_kana
   end
        
   has_many   :items
