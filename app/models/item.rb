@@ -12,7 +12,7 @@ class Item < ApplicationRecord
   with_options presence: true do
     validates :title
     validates :description
-    validates :category_id 
+    validates :category_id
     validates :item_status_id
     validates :shipping_fee_id
     validates :prefecture_id
@@ -20,10 +20,10 @@ class Item < ApplicationRecord
     validates :image
   end
 
-  with_options presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999} do
+  with_options presence: true,
+               numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 } do
     validates :price
   end
 
-  validates :category_id , :item_status_id, :shipping_fee_id, :prefecture_id, :shipping_day_id, numericality: { other_than: 0 } 
-
+  validates :category_id, :item_status_id, :shipping_fee_id, :prefecture_id, :shipping_day_id, numericality: { other_than: 0 }
 end

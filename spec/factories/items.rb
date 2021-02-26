@@ -1,13 +1,13 @@
 FactoryBot.define do
   factory :item do
-    title           {"タイトル"}
-    description     {"説明文"}
-    category_id     {1}
-    item_status_id  {1}
-    shipping_fee_id {1}
-    prefecture_id   {1}
-    shipping_day_id {1}
-    price           {300}
+    title           { 'タイトル' }
+    description     { '説明文' }
+    category_id     { 1 }
+    item_status_id  { 1 }
+    shipping_fee_id { 1 }
+    prefecture_id   { 1 }
+    shipping_day_id { 1 }
+    price           { 300 }
 
     association :user
 
