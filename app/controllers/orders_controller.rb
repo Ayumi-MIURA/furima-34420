@@ -1,16 +1,18 @@
 class OrdersController < ApplicationController
+  before_action :set_item, only: [:index, :create]
+
   def index
-    @item = Item.find(params[:item_id])
     @address = Address.new
   end
 
   def create
-    @address = Address.new(order_params)
+  
+    @address = Address.new(address_params)
     if @address.valid?
       @address.save
-      redirect_to action :index
+      redirect_to :index
     else
-      render action :index
+      render :index
     end
   end
 
@@ -24,6 +26,10 @@ class OrdersController < ApplicationController
       :address,
       :building,
       :phone_number,
-    ).marge(user_id: current_user.id, item_id: params[:item_id])
+    ).merge(user_id: current_user.id, item_id: params[:item_id])
+  end
+
+  def set_item
+    @item = Item.find(params[:item_id])
   end
 end
