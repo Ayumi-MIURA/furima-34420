@@ -1,12 +1,13 @@
 class OrdersController < ApplicationController
   def index
-    @order = Order.new
+    @item = Item.find(params[:item_id])
+    @address = Address.new
   end
 
   def create
-    @order = Order.new(order_params)
-    if @order.valid?
-      @order.save
+    @address = Address.new(order_params)
+    if @address.valid?
+      @address.save
       redirect_to action :index
     else
       render action :index
@@ -15,14 +16,14 @@ class OrdersController < ApplicationController
 
   private
 
-  def order_params
-    params.require(:order).permit(
+  def address_params
+    params.require(:address).permit(
       :postal_code,
-      :prefecture_id
+      :prefecture_id,
       :city,
       :address,
       :building,
-      :phone_number
-    )
+      :phone_number,
+    ).marge(user_id: current_user.id, item_id: params[:item_id])
   end
 end

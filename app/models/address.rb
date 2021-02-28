@@ -1,6 +1,6 @@
 class Address
   include ActiveModel::Model
-  attr_accessor :postal_code, :prefecture, :city, :address, :building, :phone_number
+  attr_accessor :postal_code, :prefecture_id, :city, :address, :building, :phone_number, :user_id, :item_id
 
   with_options presence: true do
     validates :postal_code, format: { with: /\A\d{3}[-]\d{4}\z/ }
@@ -10,15 +10,11 @@ class Address
     validates :phone_number,format:{with: /\A\d{11}\z/ }
   end
 
-  with_options foreign_key: true do,
-    validates :order
-  end
-
   def save
-    Order.create(item_id: item.id, user_id: user.id)
+    Order.create(item_id: item_id, user_id: user_id)
     Address.create(
       postal_code: postal_code, 
-      prefecture: prefecture, 
+      prefecture_id: prefecture_id, 
       city: city, 
       address: address, 
       building: building, 
