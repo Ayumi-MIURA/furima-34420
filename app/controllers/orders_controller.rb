@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :create]
-  before_action :set_item, only: [:index, :create]
-  before_action :different_current_user, only: [:index]
+  before_action :authenticate_user!
+  before_action :set_item
+  before_action :constraint_user
 
   def index
     @user_order = UserOrder.new
@@ -9,7 +9,6 @@ class OrdersController < ApplicationController
   end
 
   def create
-    building.pry
     @user_order = UserOrder.new(order_params)
     if @user_order.valid?
       pay_item
@@ -41,8 +40,8 @@ class OrdersController < ApplicationController
     @item = Item.find(params[:item_id])
   end
 
-  def different_current_user
-    if current_user.id == @item.user_id
+  def constraint_user
+    if current_user.id == @item.user_id || @item.order != nil
       redirect_to root_path
     end
   end
@@ -50,7 +49,7 @@ class OrdersController < ApplicationController
   def pay_item
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
-      amount: order_params[:price],
+      amount: @item.price,
       card: order_params[:token],
       currency: 'jpy'
     )
