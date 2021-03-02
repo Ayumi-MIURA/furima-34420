@@ -2,7 +2,10 @@ require 'rails_helper'
 
 RSpec.describe UserOrder, type: :model do
   before do
-    @user_order = FactoryBot.build(:user_order)
+    @user = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item)
+    @user_order = FactoryBot.build(:user_order, user_id: @user.id , item_id: @item.id)
+    sleep 0.1
   end
 
   describe '商品購入' do
@@ -54,7 +57,7 @@ RSpec.describe UserOrder, type: :model do
         expect(@user_order.errors.full_messages).to include("Phone number can't be blank")
       end
 
-      it 'phone_numberが11桁以上だと購入不可' do
+      it 'phone_numberが12桁以上だと購入不可' do
         @user_order.phone_number = '123456789012'
         @user_order.valid?
         expect(@user_order.errors.full_messages).to include('Phone number is too long (maximum is 11 characters)')
@@ -66,10 +69,22 @@ RSpec.describe UserOrder, type: :model do
         expect(@user_order.errors.full_messages).to include('Phone number is invalid')
       end
 
-      it 'tokenが空では登録できないこと' do
+      it 'tokenが空では購入不可' do
         @user_order.token = ''
         @user_order.valid?
         expect(@user_order.errors.full_messages).to include("Token can't be blank")
+      end
+
+      it 'user_idが空では購入不可' do
+        @user_order.user_id = ''
+        @user_order.valid?
+        expect(@user_order.errors.full_messages).to include("User can't be blank")
+      end
+
+      it 'item_idが空では購入不可' do
+        @user_order.item_id = ''
+        @user_order.valid?
+        expect(@user_order.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
