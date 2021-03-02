@@ -4,7 +4,7 @@ RSpec.describe UserOrder, type: :model do
   before do
     @user = FactoryBot.create(:user)
     @item = FactoryBot.create(:item)
-    @user_order = FactoryBot.build(:user_order, user_id: @user.id , item_id: @item.id)
+    @user_order = FactoryBot.build(:user_order, user_id: @user.id, item_id: @item.id)
     sleep 0.1
   end
 
