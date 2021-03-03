@@ -40,7 +40,7 @@ class OrdersController < ApplicationController
   end
 
   def constraint_user
-    redirect_to root_path if current_user.id == @item.user_id || !@item.order.nil?
+    redirect_to root_path if current_user.id == @item.user_id || @item.order != nil
   end
 
   def pay_item
